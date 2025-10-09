@@ -9,6 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import tfg.warhammerScanner.LoginRequest;
 import tfg.warhammerScanner.Repository.UsuarioRepository;
 import tfg.warhammerScanner.entity.Usuario;
+import tfg.warhammerScanner.security.JwtUtil;
 
 import java.util.Map;
 
@@ -19,12 +20,21 @@ public class LoginController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Usuario usuario = usuarioRepository.findByEmail(loginRequest.getEmail());
 
         if (usuario != null && BCrypt.checkpw(loginRequest.getPassword(), usuario.getPasswordHash())) {
-            return ResponseEntity.ok().body(Map.of("status", "ok"));
+            //Generamos el token
+            String token = jwtUtil.generateToken(usuario.getEmail());
+
+            //Devolvemos el token al cliente
+            return ResponseEntity.ok().body(Map.of(
+                    "status", "ok",
+                    "token", token));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
         }
