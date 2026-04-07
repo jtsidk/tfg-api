@@ -18,7 +18,7 @@ public class SecurityConfig {
         //http.csrf().disable()
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api-password-reset-request", "/api/reset-password").permitAll()
+                        .requestMatchers("/api/login", "/api-password-reset-request", "/api/reset-password", "/api/subfacciones/**", "/api/capitulos", "/api/models", "/api/upgrades", "/api/units", "/api/selection/**", "/api/estadisticas/**", "/api/cost/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
