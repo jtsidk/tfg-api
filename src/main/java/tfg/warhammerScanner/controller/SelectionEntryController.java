@@ -17,6 +17,11 @@ public class SelectionEntryController {
         this.selectionEntryRepository=selectionEntryRepository;
     }
 
+    @GetMapping("/characters")
+    public List<SelectionEntry> getCharacters(@RequestParam Long idChapter) {
+        return selectionEntryRepository.findByIdChapterAndType(idChapter, "character");
+    }
+
     @GetMapping("/models")
     public List<SelectionEntry> getModels(@RequestParam Long idChapter) {
         return selectionEntryRepository.findByIdChapterAndType(idChapter, "model");
