@@ -59,7 +59,7 @@ public class InfoLinkController {
     }
 
     @GetMapping("/cost/{idSelection}")
-    public ResponseEntity<Integer> getCostBySelection(@PathVariable Long idSelection) {
+    public ResponseEntity<Long> getCostBySelection(@PathVariable Long idSelection) {
         List<Cost> costs = costRepository.findByIdSelectionAndName(idSelection, "pts");
         if (costs.isEmpty()) {
             return ResponseEntity.notFound().build();
